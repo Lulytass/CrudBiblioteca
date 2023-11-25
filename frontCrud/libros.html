@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Title</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+</head>
+
+<body>
+  <header id="header">
+  </header>
+  <main>
+    <div class="container" id="app">
+        <h3>CRUD Libros</h3>
+        <p>Tenga en cuenta que las modificaciones que realice no se podran deshacer</p>
+        <button type="button" class="btn btn-success">Nuevo Libro</button>
+        <br><br>
+        <section v-if="error">
+            <p>En este momento no podemos mostrar la información que necesita, regrese mas tarde</p>
+        </section>
+        <section v-else>
+            <section v-if="cargando">
+                <div class="spinner-grow text-info" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+            </section>
+            <div class="table-responsive" v-else>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Imagen</th>
+                            <th scope="col">Escritor</th>
+                            <th scope="col">Estrellas</th>
+                            <th scope="col">Genero</th>
+                            <th scope="col">Editorial</th>
+                            <th scope="col">Resumen</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="" v-for="libro in libros">
+                            <td scope="row">{{libro.id}}</td>
+                            <td>{{libro.nombre}}</td>
+                            <td><a :href="libro.libro"  target='_blank'><img width="80" :src="libro.imagen" :alt="libro.nombre"></a></td>
+                            <td>{{libro.escritor}}</td>
+                            <td>{{libro.estrellas}}</td>
+                            <td>{{libro.genero}}</td>
+                            <td>{{libro.editorial}}</td>
+                            <!-- <td>{{libro.libro}}</td> -->
+                            <td>{{libro.resumen}}</td>
+                            <td>
+                                <button type="button" class="btn btn-warning">Editar</button>
+                                <button type="button" class="btn btn-danger" @click="eliminar(libro.id)">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+  </main>
+  <footer>
+    <!-- place footer here -->
+  </footer>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+  </script>
+  <script src="./js/header.js"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="./js/libros.js"></script>
+</body>
+
+</html>
