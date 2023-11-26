@@ -3,11 +3,8 @@ const { createApp } = Vue
   createApp({
     data() {
       return {
-            libros:[],
-            url:'https://luciatassi.pythonanywhere.com/libros',
             error:false,
-            cargando:true,
-            id:0,
+            id:new URLSearchParams(window.location.search).get('id') || 0,
             nombre:"", 
             imagen:"",
             escritor:"", 
@@ -16,35 +13,31 @@ const { createApp } = Vue
             editorial:"",
             libro:"", 
             resumen:"",
-            resumenLibro: null,
+            url:"",
         }
     },
     methods:{
-        fetchdata(url){
+        fetchData(url){
             fetch(url)
                 .then(resp => resp.json())
                 .then(data =>{
-                    this.libros = data;  
-                    this.cargando = false;   
+                    console.log(data)
+                    this.id = data.id;
+                    this.nombre = data.nombre;
+                    this.imagen = data.imagen;
+                    this.escritor =  data.escritor;
+                    this.estrellas = data.estrellas;
+                    this.genero = data.genero;
+                    this.editorial = data.editorial;
+                    this.libro = data.libro;
+                    this.resumen = data.resumen;
                 }) 
                 .catch(e => {
                     console.error(e);
                     this.error = true;
                 })
         },
-        eliminar(idLibro){
-            const url = this.url+'/'+ idLibro;
-            var opciones = {
-                method: 'DELETE',
-            }
-            fetch(url, opciones)
-            .then(res => res.json())
-            .then(res => {
-                location.reload();
-            })
-        }
-        ,
-        crearRegistro(){
+        modificar(){
             let libro = {
                 nombre: this.nombre, 
                 imagen: this.imagen,
@@ -57,28 +50,25 @@ const { createApp } = Vue
             }
             var options = {
                 body:JSON.stringify(libro),
-                method: 'POST',
+                method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 redirect: 'follow'
             }
             fetch(this.url, options)
             .then(function () {
-                alert("Registro grabado")
+                alert("Registro Modificado")
                 window.location.href = "./libros.html";  // recarga productos.html
             })
             .catch(err => {
                 console.error(err);
-                alert("Error al crear el nuevo registro")  // puedo mostrar el error tambien
+                alert("Error al modificar el registro")  // puedo mostrar el error tambien
             }) 
                  
         },
-        mostrarResumen(libro) {
-            this.resumenLibro = libro;
-            // Abre el modal
-            new bootstrap.Modal(document.getElementById('modalResumen')).show();
-        }, 
     },
     created(){
-        this.fetchdata(this.url)
+        this.url = 'https://luciatassi.pythonanywhere.com/libros/' + this.id;
+        this.fetchData(this.url);
+        
     }
-  }).mount('#app')
+  }).mount('#app')  
