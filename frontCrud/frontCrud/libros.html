@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Title</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+</head>
+
+<body>
+  <header id="header">
+  </header>
+  <main>
+    <div class="container" id="app">
+        <h3>CRUD Libros</h3>
+        <p>Tenga en cuenta que las modificaciones que realice no se podran deshacer</p>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Cargar Nuevo
+        </button>
+        <!-- Empieza Modal para Nuevo Libro-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nuevo Libro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" v-model="nombre">
+                  </div>
+                  <div class="mb-3">
+                    <label for="imagen">Imagen</label>
+                    <input type="text" name="imagen" id="imagen" v-model="imagen">
+                    <img width="80" :src="imagen" :alt="nombre">
+                  </div>
+                  <div class="mb-3">
+                    <label for="escritor" class="form-label">Escritor</label>
+                    <input type="text" class="form-control" id="escritor" v-model="escritor">
+                  </div>
+                  <div class="mb-3">
+                    <label for="estrellas" class="form-label">Estrellas</label>
+                    <input type="text" class="form-control" id="estrellas" v-model="estrellas">
+                  </div>
+                  <div class="mb-3">
+                    <label for="editorial" class="form-label">Editorial</label>
+                    <input type="text" class="form-control" id="editorial" v-model="editorial">
+                  </div>
+                  <div class="mb-3">
+                    <label for="genero" class="form-label">Genero</label>
+                    <input type="text" class="form-control" id="genero" v-model="genero">
+                  </div> 
+                  <div class="mb-3">
+                    <label for="libro" class="form-label">Libro</label>
+                    <input type="text" class="form-control" id="libro" v-model="libro">
+                  </div> 
+                  <div class="mb-3">
+                    <label for="resumen" class="form-label">Resumen</label>
+                    <textarea class="form-control" id="resumen" rows="3" v-model="resumen"></textarea>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" @click="crearRegistro()">Cargar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Fin Modal para Nuevo Libro-->
+        <!-- Empieza Modal Ver Resumen-->
+        <div class="modal fade" id="modalResumen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{ resumenLibro ? resumenLibro.nombre : '' }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                {{ resumenLibro ? resumenLibro.resumen : '' }}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Fin Modal para Ver Resumen-->
+        <br><br>
+        <section v-if="error">
+            <p>En este momento no podemos mostrar la información que necesita, regrese mas tarde</p>
+        </section>
+        <section v-else>
+            <section v-if="cargando">
+                <div class="spinner-grow text-info" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+            </section>
+            <div class="table-responsive" v-else>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Imagen</th>
+                            <th scope="col">Escritor</th>
+                            <th scope="col">Estrellas</th>
+                            <th scope="col">Genero</th>
+                            <th scope="col">Editorial</th>
+                            <th scope="col">Resumen</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="" v-for="libro in libros">
+                            <td class="text-center align-middle" scope="row">{{libro.id}}</td>
+                            <td class="text-center align-middle">{{libro.nombre}}</td>
+                            <td class="text-center align-middle"><a :href="libro.libro"  target='_blank'><img width="80" :src="libro.imagen" :alt="libro.nombre"></a></td>
+                            <td class="text-center align-middle">{{libro.escritor}}</td>
+                            <td class="text-center align-middle">{{libro.estrellas}}</td>
+                            <td class="text-center align-middle">{{libro.genero}}</td>
+                            <td class="text-center align-middle">{{libro.editorial}}</td>
+                            <td class="text-center align-middle">
+                              <button type="button" class="btn btn-info" @click="mostrarResumen(libro)">
+                                Ver resumen
+                              </button>
+                            </td>
+                            <td class="text-center align-middle">
+                              <a class="btn btn-warning" :href="'editar.html?id='+ libro.id" >Editar</a>
+                              <br><br>
+                              <button type="button" class="btn btn-danger" @click="eliminar(libro.id)">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+  </main>
+  <footer>
+    <!-- place footer here -->
+  </footer>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+  </script>
+  <script src="./js/header.js"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="./js/libros.js"></script>
+</body>
+
+</html>
