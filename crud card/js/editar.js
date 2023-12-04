@@ -21,8 +21,6 @@ const { createApp } = Vue
             fetch(url)
                 .then(resp => resp.json())
                 .then(data =>{
-                    console.log(data)
-                    this.id = data.id;
                     this.nombre = data.nombre;
                     this.imagen = data.imagen;
                     this.escritor =  data.escritor;
@@ -69,6 +67,5 @@ const { createApp } = Vue
     created(){
         this.url = 'https://luciatassi.pythonanywhere.com/libros/' + this.id;
         this.fetchData(this.url);
-        
     }
   }).mount('#app')  
