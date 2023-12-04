@@ -15,13 +15,11 @@ document.getElementById("header").innerHTML= `
                     <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menu</a>
                     <div class="dropdown-menu" aria-labelledby="dropdownId">
                         <a class="dropdown-item" href="libros.html">Libros</a>
+                        <a class="dropdown-item" href="nuevoUsuario.html">Crear Usuario</a>
+
                     </div>
                 </li>
             </ul>
-            <form class="d-flex my-2 my-lg-0">
-                <input class="form-control me-sm-2" type="text" placeholder="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
         </div>
     </div>
 </nav>`

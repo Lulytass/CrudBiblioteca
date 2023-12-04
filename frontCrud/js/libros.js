@@ -80,5 +80,7 @@ const { createApp } = Vue
     },
     created(){
         this.fetchdata(this.url)
+
+        
     }
   }).mount('#app')
